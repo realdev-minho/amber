@@ -1,0 +1,17 @@
+{
+  "name": "Amber - Your Shop For Everything",
+  "short_name": "Amber",
+  "description": "Premium shopping marketplace for fashion, audio, watches, and design.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0D0B0A",
+  "theme_color": "#FF8A00",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
