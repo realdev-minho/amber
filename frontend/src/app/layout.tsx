@@ -43,10 +43,35 @@ export default function RootLayout({
             __html: `
               (function() {
                 if (typeof window === 'undefined') return;
+                try {
+                  var clean = function() {
+                    var els = document.querySelectorAll('[bis_skin_checked]');
+                    for (var i = 0; i < els.length; i++) els[i].removeAttribute('bis_skin_checked');
+                  };
+                  clean();
+                  if (window.MutationObserver && document.documentElement) {
+                    var obs = new MutationObserver(function(mutations) {
+                      for (var i = 0; i < mutations.length; i++) {
+                        var m = mutations[i];
+                        if (m.type === 'attributes' && m.attributeName === 'bis_skin_checked' && m.target && m.target.removeAttribute) {
+                          m.target.removeAttribute('bis_skin_checked');
+                        }
+                      }
+                    });
+                    obs.observe(document.documentElement, { attributes: true, subtree: true, attributeFilter: ['bis_skin_checked'] });
+                  }
+                } catch(e) {}
+
                 var origError = console.error;
                 console.error = function() {
-                  var msg = arguments[0];
-                  if (typeof msg === 'string' && (msg.indexOf('bis_skin_checked') !== -1 || msg.indexOf('hydrated but some attributes') !== -1)) {
+                  var str = '';
+                  for (var i = 0; i < arguments.length; i++) {
+                    var a = arguments[i];
+                    if (typeof a === 'string') str += ' ' + a;
+                    else if (a && a.message) str += ' ' + a.message;
+                    else if (a && a.stack) str += ' ' + a.stack;
+                  }
+                  if (str.indexOf('bis_skin_checked') !== -1 || str.indexOf('hydrated but some attributes') !== -1 || str.indexOf('Hydration failed') !== -1) {
                     return;
                   }
                   origError.apply(console, arguments);

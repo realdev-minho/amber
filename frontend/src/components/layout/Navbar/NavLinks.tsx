@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Heart, ShoppingBag, User } from "lucide-react";
+import { Heart, ShoppingCart, User } from "lucide-react";
 import { useCartStore } from "@/stores/useCartStore";
 import { useWishlistStore } from "@/stores/useWishlistStore";
 import { useAuthStore } from "@/stores/useAuthStore";
@@ -64,10 +64,10 @@ export function NavLinks() {
       <Link
         id="navbar-cart-icon"
         href="/cart"
-        aria-label={`Shopping bag, ${cartItemsCount} items`}
+        aria-label={`Cart, ${cartItemsCount} items`}
         className="relative p-2 rounded-full text-stone-300 hover:text-white hover:bg-white/5 transition-colors"
       >
-        <ShoppingBag className="w-5 h-5 text-[#FF8A00] transition-transform hover:scale-110 active:scale-95" />
+        <ShoppingCart className="w-5 h-5 text-[#FF8A00] transition-transform hover:scale-110 active:scale-95" />
         {cartItemsCount > 0 && (
           <span className="absolute top-0.5 right-0.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full bg-[#FF8A00] text-black text-[10px] font-bold px-1 ring-2 ring-[#0D0B0A] animate-in zoom-in-75 duration-150">
             {cartItemsCount}

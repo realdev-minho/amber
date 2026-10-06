@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { Product } from "@/types";
 import { FilterSidebar } from "./FilterSidebar";
 import { ProductGrid } from "./ProductGrid";
 import { SortDropdown, SortOption } from "./SortDropdown";
 import { SlidersHorizontal } from "lucide-react";
-import { useAuthStore } from "@/stores/useAuthStore";
-import { GoogleAuthGate } from "@/components/auth/GoogleAuthGate";
 
 interface CatalogViewProps {
   initialProducts: Product[];
@@ -22,25 +20,13 @@ export function CatalogView({
   pageTitle = "Explore Catalog",
   pageSubtitle = "Curated luxury goods across all marketplace departments.",
 }: CatalogViewProps) {
-  const [mounted, setMounted] = useState(false);
-  const { isAuthenticated } = useAuthStore();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(initialCategory);
   const [selectedPriceMax, setSelectedPriceMax] = useState<number>(400000);
   const [minRating, setMinRating] = useState<number>(0);
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
   const [sortBy, setSortBy] = useState<SortOption>("relevance");
   const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
-
   const [showDesktopFilters, setShowDesktopFilters] = useState(true);
-
-  if (mounted && !isAuthenticated) {
-    return <GoogleAuthGate redirect={initialCategory ? `/shop/${initialCategory}` : "/shop"} />;
-  }
 
   const resetFilters = () => {
     setSelectedCategory(initialCategory);
