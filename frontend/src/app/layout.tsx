@@ -45,8 +45,18 @@ export default function RootLayout({
                 if (typeof window === 'undefined') return;
                 var origError = console.error;
                 console.error = function() {
-                  var msg = arguments[0];
-                  if (typeof msg === 'string' && (msg.indexOf('bis_skin_checked') !== -1 || msg.indexOf('hydrated but some attributes') !== -1)) {
+                  var str = '';
+                  for (var i = 0; i < arguments.length; i++) {
+                    var a = arguments[i];
+                    if (typeof a === 'string') str += ' ' + a;
+                    else if (a && a.message) str += ' ' + a.message;
+                    else if (a && a.stack) str += ' ' + a.stack;
+                  }
+                  if (
+                    str.indexOf('bis_skin_checked') !== -1 ||
+                    str.indexOf('hydrated but some attributes') !== -1 ||
+                    str.indexOf('Hydration failed') !== -1
+                  ) {
                     return;
                   }
                   origError.apply(console, arguments);
